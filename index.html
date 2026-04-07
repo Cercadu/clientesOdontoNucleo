@@ -48,6 +48,7 @@ h1 { text-align:center; color:#075e54; }
     border-radius:40px;
     font-size:18px;
     cursor:pointer;
+    margin-bottom:10px;
 }
 
 .progress {
@@ -66,6 +67,36 @@ h1 { text-align:center; color:#075e54; }
     max-height:120px;
     overflow:auto;
     font-size:12px;
+    margin-bottom:15px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.button-group button {
+    flex: 1;
+    padding: 12px;
+    background: #075e54;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.button-group button:last-child {
+    background: #dc3545;
+}
+
+.button-group button:first-child {
+    background: #17a2b8;
+}
+
+.export-btn {
+    background: #28a745 !important;
 }
 </style>
 </head>
@@ -90,9 +121,10 @@ h1 { text-align:center; color:#075e54; }
 <h3>Últimos envios</h3>
 <div class="history" id="hist"></div>
 
-<br>
-<button onclick="relatorio()">📊 Relatório</button>
-<button onclick="resetar()">🗑️ Resetar</button>
+<div class="button-group">
+    <button onclick="exportarExcel()">📊 Exportar Excel</button>
+    <button onclick="resetar()">🗑️ Resetar</button>
+</div>
 
 </div>
 
@@ -134,7 +166,6 @@ https://share.google/uNCleJOVAxP72EQUh
 🎥 Veja nosso trabalho:
 https://www.instagram.com/reel/DVZnrJHCW5B/?igsh=MXQwZWNsd3h1cWd0eg==`;
 
-
 // ===== CONTROLE =====
 let i = Number(localStorage.getItem("idx")) || 0;
 let hist = JSON.parse(localStorage.getItem("hist") || "[]");
@@ -154,7 +185,11 @@ function enviar(){
 
     window.open(url,"_blank");
 
-    hist.push({n:LISTA[i], h:new Date().toLocaleTimeString()});
+    hist.push({
+        numero: LISTA[i],
+        data_hora: new Date().toLocaleString('pt-BR'),
+        status: "Enviado"
+    });
     i++;
 
     salvar();
@@ -171,7 +206,7 @@ function atualizar(){
 
     document.getElementById("hist").innerHTML =
         hist.slice(-5).reverse().map(x =>
-            `<div>✅ ${x.n} - ${x.h}</div>`
+            `<div>✅ ${x.numero} - ${x.data_hora}</div>`
         ).join("");
 }
 
@@ -180,21 +215,87 @@ function salvar(){
     localStorage.setItem("hist", JSON.stringify(hist));
 }
 
-function relatorio(){
-    const txt = `📊 Relatório: ${i}/${LISTA.length} enviados`;
-    window.open(`https://api.whatsapp.com/send?phone=${MEU_NUM}&text=${encodeURIComponent(txt)}`);
+function exportarExcel() {
+    // Criar dados para o Excel
+    const dados = [];
+    
+    // Cabeçalho
+    dados.push(['Número', 'Data/Hora do Envio', 'Status']);
+    
+    // Adicionar todos os envios realizados
+    hist.forEach(item => {
+        dados.push([item.numero, item.data_hora, item.status]);
+    });
+    
+    // Adicionar os números que ainda não foram enviados
+    const enviadosSet = new Set(hist.map(item => item.numero));
+    const naoEnviados = LISTA.filter(num => !enviadosSet.has(num));
+    
+    if (naoEnviados.length > 0) {
+        dados.push(['', '', '']); // Linha em branco
+        dados.push(['=== NÃO ENVIADOS ===', '', '']);
+        naoEnviados.forEach(num => {
+            dados.push([num, 'Aguardando envio', 'Pendente']);
+        });
+    }
+    
+    // Adicionar resumo
+    dados.push(['', '', '']);
+    dados.push(['=== RESUMO ===', '', '']);
+    dados.push(['Total de números', LISTA.length, '']);
+    dados.push(['Total enviados', i, '']);
+    dados.push(['Total pendentes', LISTA.length - i, '']);
+    dados.push(['Progresso', ((i/LISTA.length)*100).toFixed(2) + '%', '']);
+    
+    // Converter para planilha
+    const ws = XLSX.utils.aoa_to_sheet(dados);
+    
+    // Ajustar largura das colunas
+    ws['!cols'] = [
+        {wch:20},  // Coluna Número
+        {wch:25},  // Coluna Data/Hora
+        {wch:15}   // Coluna Status
+    ];
+    
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Relatorio_OdontoNucleo");
+    
+    // Gerar nome do arquivo com data atual
+    const dataAtual = new Date().toISOString().slice(0,19).replace(/:/g, '-');
+    const nomeArquivo = `relatorio_odontonucleo_${dataAtual}.xlsx`;
+    
+    // Exportar
+    XLSX.writeFile(wb, nomeArquivo);
+    
+    // Opcional: Notificar via WhatsApp
+    if(confirm("Relatório exportado com sucesso! Deseja enviar também via WhatsApp?")){
+        const txt = `📊 Relatório OdontoNúcleo\n\nTotal: ${LISTA.length}\nEnviados: ${i}\nPendentes: ${LISTA.length - i}\nProgresso: ${((i/LISTA.length)*100).toFixed(1)}%\n\nArquivo Excel gerado: ${nomeArquivo}`;
+        window.open(`https://api.whatsapp.com/send?phone=${MEU_NUM}&text=${encodeURIComponent(txt)}`);
+    }
 }
 
 function resetar(){
-    if(confirm("Resetar lista?")){
+    if(confirm("⚠️ ATENÇÃO: Isso vai resetar TODO o histórico e os envios!\nDeseja continuar?")){
         localStorage.clear();
         location.reload();
     }
 }
 
+// Inicializar
 atualizar();
 
+// Adicionar atalho de teclado para exportar (Ctrl+E)
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 'e') {
+        e.preventDefault();
+        exportarExcel();
+    }
+});
+
 </script>
+
+<!-- Incluir biblioteca SheetJS para exportar Excel -->
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 
 </body>
 </html>
