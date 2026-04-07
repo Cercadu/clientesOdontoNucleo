@@ -1,172 +1,131 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OdontoNúcleo · Painel de Envios</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OdontoNúcleo · Painel</title>
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="OdontoNúcleo - Ortodontia Especializada">
-    <meta property="og:description" content="🦷 Agende sua avaliação e limpeza esta semana! Clique para saber mais.">
-    <meta property="og:url" content="https://cercadu.github.io/clientesOdontoNucleo/">
-    
-    <!-- IMAGEM CORRIGIDA -->
-    <meta property="og:image" content="https://raw.githubusercontent.com/Cercadu/clientesOdontoNucleo/main/img/anuncioOdontoNucleo.jpeg">
-    <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/Cercadu/clientesOdontoNucleo/main/img/anuncioOdontoNucleo.jpeg">
-    <meta property="og:image:type" content="image/jpeg">
+<!-- Open Graph (WhatsApp Preview) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="OdontoNúcleo - Ortodontia Especializada">
+<meta property="og:description" content="🦷 Agende sua avaliação e limpeza esta semana!">
+<meta property="og:url" content="https://cercadu.github.io/clientesOdontoNucleo/">
+<meta property="og:image" content="https://cercadu.github.io/clientesOdontoNucleo/img/anuncioOdontoNucleo.jpeg">
+<meta property="og:image:secure_url" content="https://cercadu.github.io/clientesOdontoNucleo/img/anuncioOdontoNucleo.jpeg">
+<meta property="og:image:width" content="1080">
+<meta property="og:image:height" content="1350">
 
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(145deg,#075e54,#128c7e);
+    padding: 15px;
+}
+.container {
+    max-width: 420px;
+    margin: auto;
+    background: #fff;
+    border-radius: 30px;
+    padding: 20px;
+}
+h1 { text-align:center; color:#075e54; }
 
-        body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(145deg, #075e54, #128c7e);
-            min-height: 100vh;
-            padding: 15px;
-        }
+.stats {
+    display:flex;
+    justify-content:space-around;
+    background:#e8f5e9;
+    padding:10px;
+    border-radius:20px;
+    margin:15px 0;
+}
 
-        .container {
-            max-width: 450px;
-            margin: auto;
-            background: #fff;
-            border-radius: 30px;
-            padding: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
+.btn {
+    width:100%;
+    padding:20px;
+    background:#25D366;
+    color:#fff;
+    border:none;
+    border-radius:40px;
+    font-size:18px;
+    cursor:pointer;
+}
 
-        h1 {
-            text-align: center;
-            color: #075e54;
-            margin-bottom: 20px;
-        }
+.progress {
+    height:10px;
+    background:#ddd;
+    border-radius:5px;
+    margin:15px 0;
+}
+.progress div {
+    height:100%;
+    background:#25D366;
+    width:0%;
+}
 
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            background: #e8f5e9;
-            padding: 15px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-        }
-
-        .stat {
-            text-align: center;
-            font-size: 0.8rem;
-        }
-
-        .stat span {
-            display: block;
-            font-size: 1.2rem;
-            color: #075e54;
-            font-weight: bold;
-        }
-
-        .progress {
-            height: 10px;
-            background: #eee;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 15px 0;
-        }
-
-        .progress div {
-            height: 100%;
-            width: 0%;
-            background: #25D366;
-            transition: 0.3s;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 18px;
-            border: none;
-            border-radius: 40px;
-            background: #25D366;
-            color: #fff;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .btn:active {
-            transform: scale(0.97);
-        }
-
-        .history {
-            margin-top: 20px;
-            max-height: 120px;
-            overflow-y: auto;
-            font-size: 0.8rem;
-        }
-
-        .item {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid #eee;
-            padding: 5px 0;
-        }
-
-        .footer {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .btn-small {
-            flex: 1;
-            padding: 10px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .report { background: #075e54; color: #fff; }
-        .reset { background: #fff; color: #cc0000; border: 1px solid #ccc; }
-    </style>
+.history {
+    max-height:120px;
+    overflow:auto;
+    font-size:12px;
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
-    <h1>🦷 OdontoNúcleo</h1>
+<h1>🦷 OdontoNúcleo</h1>
 
-    <div class="stats">
-        <div class="stat">Total<span id="total"></span></div>
-        <div class="stat">Enviados<span id="enviados"></span></div>
-        <div class="stat">Faltam<span id="faltam"></span></div>
-    </div>
+<div class="stats">
+<div>Total<br><b id="total"></b></div>
+<div>Enviados<br><b id="enviados"></b></div>
+<div>Faltam<br><b id="faltam"></b></div>
+</div>
 
-    <div style="text-align:center; font-size:0.9rem;">
-        Próximo: <strong id="proximo"></strong>
-    </div>
+<p>Próximo: <b id="proximo"></b></p>
 
-    <div class="progress"><div id="barra"></div></div>
+<div class="progress"><div id="bar"></div></div>
 
-    <button class="btn" onclick="enviar()">🚀 ENVIAR</button>
+<button class="btn" onclick="enviar()">🚀 ENVIAR</button>
 
-    <div class="history" id="historico"></div>
+<h3>Últimos envios</h3>
+<div class="history" id="hist"></div>
 
-    <div class="footer">
-        <button class="btn-small report" onclick="relatorio()">📊 Relatório</button>
-        <button class="btn-small reset" onclick="resetar()">🗑️ Resetar</button>
-    </div>
+<br>
+<button onclick="relatorio()">📊 Relatório</button>
+<button onclick="resetar()">🗑️ Resetar</button>
+
 </div>
 
 <script>
-const LISTA = ["11934114885","11910500784","11939013946","11941046960","11958342166","11962731748","11963471216","11965769029","11966580846","11968458922","11972072515","11973512208","11983358314","11983678687","11988067109","11996441817","11997035613","11997635182","16996964316","17996009869","19981050215","19981156510","21967371160","24992807043","3187129395","3199056872","3199914682","3488418668","3488519198","3488545185","3491264650","3491278146","3491323630"];
+
+// ===== LISTA (SEU NÚMERO PRIMEIRO) =====
+const LISTA = [
+"34998964543",
+"11934114885","11910500784","11939013946","11941046960","11958342166",
+"11962731748","11963471216","11965769029","11966580846","11968458922",
+"11972072515","11973512208","11983358314","11983678687","11988067109",
+"11996441817","11997035613","11997635182","16996964316","17996009869",
+"19981050215","19981156510","21967371160","24992807043","3187129395",
+"3199056872","3199914682","3488418668","3488519198","3488545185",
+"3491264650","3491278146","3491323630"
+];
 
 const MEU_NUM = "5534998964543";
 
-const MSG = `Olá! 😊
+// ===== MENSAGEM (LINK PRIMEIRO PRA IMAGEM FUNCIONAR) =====
+const MSG = `🦷 Agende sua avaliação agora:
 
-🦷 Está há um tempo sem cuidar do seu sorriso?
+https://cercadu.github.io/clientesOdontoNucleo/?v=1
 
-Temos horários disponíveis esta semana para *avaliação e limpeza*.
+Olá! 😊
 
-⚠️ Evite dor e tratamentos mais complexos no futuro.
+Está há um tempo sem cuidar do seu sorriso?
 
-📲 Agende agora:
+Temos horários disponíveis esta semana para avaliação e limpeza.
+
+⚠️ Evite dores e tratamentos mais complexos no futuro.
+
+📲 Fale conosco:
 https://wa.me/5564984146201
 
 📍 Como chegar:
@@ -175,60 +134,66 @@ https://share.google/uNCleJOVAxP72EQUh
 🎥 Veja nosso trabalho:
 https://www.instagram.com/reel/DVZnrJHCW5B/?igsh=MXQwZWNsd3h1cWd0eg==`;
 
-let i = parseInt(localStorage.getItem("idx") || "0");
+
+// ===== CONTROLE =====
+let i = Number(localStorage.getItem("idx")) || 0;
 let hist = JSON.parse(localStorage.getItem("hist") || "[]");
 
-function formatar(n) {
-    return n.startsWith("55") ? n : "55" + n;
+function formatar(n){
+    return n.startsWith("55") ? n : "55"+n;
 }
 
-function enviar() {
-    if (i >= LISTA.length) return alert("Lista finalizada!");
+function enviar(){
+    if(i >= LISTA.length){
+        alert("Lista finalizada!");
+        return;
+    }
 
     const numero = formatar(LISTA[i]);
     const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(MSG)}`;
-    
-    window.open(url, "_blank");
 
-    hist.push({ n: LISTA[i], t: new Date().toLocaleTimeString() });
+    window.open(url,"_blank");
+
+    hist.push({n:LISTA[i], h:new Date().toLocaleTimeString()});
     i++;
 
     salvar();
     atualizar();
 }
 
-function atualizar() {
+function atualizar(){
     document.getElementById("total").innerText = LISTA.length;
     document.getElementById("enviados").innerText = i;
     document.getElementById("faltam").innerText = LISTA.length - i;
     document.getElementById("proximo").innerText = LISTA[i] || "FIM";
 
-    document.getElementById("barra").style.width = ((i / LISTA.length) * 100) + "%";
+    document.getElementById("bar").style.width = ((i/LISTA.length)*100)+"%";
 
-    document.getElementById("historico").innerHTML =
-        hist.slice(-5).reverse().map(h =>
-            `<div class="item"><span>${h.n}</span><span>${h.t}</span></div>`
+    document.getElementById("hist").innerHTML =
+        hist.slice(-5).reverse().map(x =>
+            `<div>✅ ${x.n} - ${x.h}</div>`
         ).join("");
 }
 
-function salvar() {
+function salvar(){
     localStorage.setItem("idx", i);
     localStorage.setItem("hist", JSON.stringify(hist));
 }
 
-function relatorio() {
-    const txt = `📊 Relatório\n${i}/${LISTA.length} enviados`;
+function relatorio(){
+    const txt = `📊 Relatório: ${i}/${LISTA.length} enviados`;
     window.open(`https://api.whatsapp.com/send?phone=${MEU_NUM}&text=${encodeURIComponent(txt)}`);
 }
 
-function resetar() {
-    if (confirm("Reiniciar?")) {
+function resetar(){
+    if(confirm("Resetar lista?")){
         localStorage.clear();
         location.reload();
     }
 }
 
 atualizar();
+
 </script>
 
 </body>
