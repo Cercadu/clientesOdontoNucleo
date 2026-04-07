@@ -3,188 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>OdontoNúcleo · Mass WhatsApp</title>
+    <title>OdontoNúcleo · Painel de Envios</title>
 
     <meta property="og:title" content="OdontoNúcleo - Ortodontia">
-    <meta property="og:description" content="Inicie seu tratamento este mês e ganhe uma limpeza de cortesia! 🦷">
-    <meta property="og:url" content="https://cercadu.github.io/clientesOdontoNucleo/">
+    <meta property="og:description" content="🦷 Agende sua avaliação e limpeza esta semana!">
     <meta property="og:image" content="https://cercadu.github.io/clientesOdontoNucleo/img/anuncioOdontoNucleo.jpeg">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1080">
-    <meta property="og:image:height" content="1920">
     <meta property="og:type" content="website">
-    
+    <meta property="og:url" content="https://cercadu.github.io/clientesOdontoNucleo/">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(145deg, #075e54 0%, #128c7e 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
+            min-height: 100vh; padding: 15px; color: #333;
         }
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 30px;
-            padding: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            max-width: 450px; margin: 0 auto; background: white;
+            border-radius: 40px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
-        h1 { color: #075e54; text-align: center; font-size: 1.5rem; margin-bottom: 20px; }
+        h1 { color: #075e54; text-align: center; font-size: 1.3rem; margin-bottom: 20px; }
         .stats-bar {
             display: flex; justify-content: space-around;
-            background: #f0fdf4; padding: 15px; border-radius: 20px; margin-bottom: 20px;
+            background: #e8f5e9; padding: 15px; border-radius: 25px; margin-bottom: 20px;
         }
-        .stat { text-align: center; font-weight: bold; font-size: 0.9rem; }
-        .stat span { display: block; color: #128c7e; font-size: 1.2rem; }
+        .stat { text-align: center; font-weight: bold; font-size: 0.8rem; }
+        .stat span { display: block; color: #075e54; font-size: 1.2rem; }
         
-        textarea {
-            width: 100%; min-height: 120px; padding: 15px;
-            border-radius: 15px; border: 2px solid #ddd;
-            font-family: monospace; margin-bottom: 15px;
-        }
-        .btn {
-            width: 100%; padding: 18px; border: none; border-radius: 50px;
-            font-size: 1.1rem; font-weight: bold; cursor: pointer;
-            transition: transform 0.2s; margin-bottom: 10px;
-        }
-        .btn-import { background: #075e54; color: white; }
         .btn-send { 
-            background: #25D366; color: white; font-size: 1.4rem; 
-            box-shadow: 0 6px 0 #128c7e; margin-top: 10px;
+            width: 100%; padding: 25px; border: none; border-radius: 50px;
+            background: #25D366; color: white; font-size: 1.4rem; font-weight: bold;
+            box-shadow: 0 8px 0 #128c7e; cursor: pointer; transition: 0.1s;
         }
-        .btn-send:active { transform: translateY(4px); box-shadow: 0 2px 0 #128c7e; }
+        .btn-send:active { transform: translateY(4px); box-shadow: 0 4px 0 #128c7e; }
         
-        .progress-container { margin: 20px 0; display: none; }
-        .progress-bar-bg { background: #eee; height: 10px; border-radius: 5px; overflow: hidden; }
-        .progress-bar-fill { background: #25D366; height: 100%; width: 0%; transition: width 0.3s; }
+        .progress-info { text-align: center; margin: 15px 0 5px; font-size: 0.9rem; }
+        .bar-bg { background: #eee; height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
+        .bar-fill { background: #25D366; height: 100%; width: 0%; transition: 0.4s; }
         
-        .history { max-height: 150px; overflow-y: auto; font-size: 0.85rem; border-top: 1px solid #eee; padding-top: 10px; }
-        .history-item { padding: 5px 0; border-bottom: 1px solid #fafafa; display: flex; justify-content: space-between; }
+        .history-box { background: #f9f9f9; border-radius: 20px; padding: 15px; max-height: 150px; overflow-y: auto; }
+        .history-item { font-size: 0.8rem; padding: 6px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
         
-        .footer-btns { display: flex; gap: 10px; margin-top: 20px; }
-        .btn-small { flex: 1; padding: 10px; font-size: 0.8rem; border-radius: 10px; border: 1px solid #ddd; background: white; cursor: pointer; }
+        .footer-nav { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-foot { flex: 1; padding: 12px; border-radius: 15px; border: 1px solid #ddd; background: #fff; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🦷 OdontoNúcleo Manager</h1>
+    <h1>🦷 OdontoNúcleo Admin</h1>
 
     <div class="stats-bar">
-        <div class="stat">Total<span id="txtTotal">0</span></div>
+        <div class="stat">Pacientes<span>33</span></div>
         <div class="stat">Enviados<span id="txtEnviados">0</span></div>
         <div class="stat">Faltam<span id="txtPendentes">0</span></div>
     </div>
 
-    <div id="setupArea">
-        <textarea id="inputNumeros" placeholder="Cole os números aqui (um por linha)..."></textarea>
-        <button class="btn btn-import" onclick="importar()">📥 Carregar Lista de Pacientes</button>
-    </div>
+    <div class="progress-info">Próximo: <strong id="currentNum">...</strong></div>
+    <div class="bar-bg"><div class="bar-fill" id="bar"></div></div>
 
-    <div id="workArea" style="display:none;">
-        <div class="progress-container" id="progresso">
-            <p style="text-align:center; margin-bottom: 5px;">Enviando para: <strong id="currentNum">...</strong></p>
-            <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar"></div></div>
-        </div>
+    <button class="btn-send" onclick="enviarProximo()">🚀 ENVIAR AGORA</button>
+    
+    <div style="margin-top: 20px; font-weight: bold; font-size: 0.8rem; color: #666;">Últimos Envios:</div>
+    <div class="history-box" id="historico"></div>
 
-        <button class="btn btn-send" id="btnProximo" onclick="enviarProximo()">🚀 ENVIAR PRÓXIMO</button>
-        
-        <div class="history" id="historico"></div>
-
-        <div class="footer-btns">
-            <button class="btn-small" onclick="gerarRelatorio()">📊 Relatório</button>
-            <button class="btn-small" style="color:red;" onclick="resetar()">🗑️ Resetar</button>
-        </div>
+    <div class="footer-nav">
+        <button class="btn-foot" onclick="enviarRelatorio()" style="background: #075e54; color: white; border: none;">📊 Relatório p/ Kadu</button>
+        <button class="btn-foot" onclick="resetar()" style="color: #cc0000;">🗑️ Resetar</button>
     </div>
 </div>
 
 <script>
-    // Link do site no GitHub Pages (onde estão os metadados da imagem)
-    const LINK_CAMPANHA = "https://cercadu.github.io/clientesOdontoNucleo/";
+    // LISTA FIXA DE NÚMEROS
+    const LISTA_PACIENTES = ["11934114885","11910500784","11939013946","11941046960","11958342166","11962731748","11963471216","11965769029","11966580846","11968458922","11972072515","11973512208","11983358314","11983678687","11988067109","11996441817","11997035613","11997635182","16996964316","17996009869","19981050215","19981156510","21967371160","24992807043","3187129395","3199056872","3199914682","3488418668","3488519198","3488545185","3491264650","3491278146","3491323630"];
+    
+    const WHATSAPP_RELATORIO = "5534998964543";
+    const LINK_SITE = "https://cercadu.github.io/clientesOdontoNucleo/";
 
-    const MENSAGENS = [
-        `Olá! Tudo bem? 😊\n\nNeste mês de abril, estamos com uma condição especial na *OdontoNúcleo* para quem deseja iniciar seu tratamento ortodôntico 🦷\n\nAo iniciar o tratamento, você recebe uma *limpeza como cortesia*.\n\nConfira os detalhes no link abaixo:\n${LINK_CAMPANHA}`,
-        
-        `Olá! 😊 Seu sorriso merece cuidado ✨\n\nDurante o mês de abril, ao iniciar seu tratamento ortodôntico aqui na *OdontoNúcleo*, você ganha uma *limpeza como benefício especial*.\n\nAcesse para ver nossa localização e fotos:\n${LINK_CAMPANHA}`,
-        
-        `Olá! Tudo bem?\n\nEstamos com uma condição especial neste mês para tratamento ortodôntico 🦷\n\nIniciando seu tratamento, você recebe uma *limpeza como cortesia*.\n\nVeja nosso trabalho e agende sua avaliação:\n${LINK_CAMPANHA}`
-    ];
+    const MENSAGEM = `Olá! 😊\n\n🦷 Está há um tempo sem ir ao dentista?\nEstamos com alguns horários disponíveis para avaliação e limpeza essa semana.\n\n⚠️ Cuidar agora evita dor e problemas maiores depois.\n\n📲 *Agende agora:* https://wa.me/5564984146201\n\n📍 *Como chegar:* https://share.google/uNCleJOVAxP72EQUh\n\n🎥 *Veja nosso trabalho:* https://www.instagram.com/reel/DVZnrJHCW5B/?igsh=MXQwZWNsd3h1cWd0eg==\n\n---\nConfira aqui: ${LINK_SITE}`;
 
-    let pacientes = JSON.parse(localStorage.getItem('odonto_list') || '[]');
-    let index = parseInt(localStorage.getItem('odonto_index') || '0');
-    let historico = JSON.parse(localStorage.getItem('odonto_history') || '[]');
-
-    function salvar() {
-        localStorage.setItem('odonto_list', JSON.stringify(pacientes));
-        localStorage.setItem('odonto_index', index);
-        localStorage.setItem('odonto_history', JSON.stringify(historico));
-        atualizarUI();
-    }
+    let index = parseInt(localStorage.getItem('odonto_idx') || '0');
+    let historico = JSON.parse(localStorage.getItem('odonto_hist') || '[]');
 
     function formatar(num) {
         let n = num.replace(/\D/g, '');
-        if (n.length === 11) n = '55' + n;
-        if (n.length === 10) n = '55' + n.substring(0,2) + '9' + n.substring(2);
-        return n.startsWith('55') ? n : '55' + n;
-    }
-
-    function importar() {
-        const raw = document.getElementById('inputNumeros').value;
-        const linhas = raw.split('\n').map(l => l.trim()).filter(l => l.length > 8);
-        if(linhas.length === 0) return alert("Cole números válidos!");
-
-        pacientes = linhas.map(l => formatar(l));
-        index = 0;
-        historico = [];
-        salvar();
+        return n.length <= 11 ? '55' + n : n;
     }
 
     function enviarProximo() {
-        if (index >= pacientes.length) return alert("Fim da lista!");
+        if (index >= LISTA_PACIENTES.length) return alert("🎉 Campanha concluída!");
 
-        const fone = pacientes[index];
-        const msgBase = MENSAGENS[Math.floor(Math.random() * MENSAGENS.length)];
+        const foneRaw = LISTA_PACIENTES[index];
+        const foneWpp = formatar(foneRaw);
         
-        // Abre o WhatsApp com a mensagem + Link que gera a prévia da imagem
-        const url = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(msgBase)}`;
-        window.open(url, '_blank');
+        window.open(`https://api.whatsapp.com/send?phone=${foneWpp}&text=${encodeURIComponent(MENSAGEM)}`, '_blank');
 
-        historico.push({ fone, hora: new Date().toLocaleTimeString() });
+        historico.push({ fone: foneRaw, hora: new Date().toLocaleTimeString('pt-BR') });
         index++;
-        salvar();
+        
+        localStorage.setItem('odonto_idx', index);
+        localStorage.setItem('odonto_hist', JSON.stringify(historico));
+        atualizarUI();
     }
 
     function atualizarUI() {
-        document.getElementById('txtTotal').innerText = pacientes.length;
+        const pendentes = LISTA_PACIENTES.length - index;
         document.getElementById('txtEnviados').innerText = index;
-        document.getElementById('txtPendentes').innerText = pacientes.length - index;
+        document.getElementById('txtPendentes').innerText = pendentes;
+        
+        const perc = (index / LISTA_PACIENTES.length) * 100;
+        document.getElementById('bar').style.width = perc + '%';
+        document.getElementById('currentNum').innerText = LISTA_PACIENTES[index] || "CONCLUÍDO";
 
-        if(pacientes.length > 0) {
-            document.getElementById('setupArea').style.display = 'none';
-            document.getElementById('workArea').style.display = 'block';
-            document.getElementById('progresso').style.display = 'block';
-            document.getElementById('currentNum').innerText = pacientes[index] || "Concluído";
-            
-            const perc = (index / pacientes.length) * 100;
-            document.getElementById('bar').style.width = perc + '%';
-        }
-
-        const histDiv = document.getElementById('historico');
-        histDiv.innerHTML = historico.slice(-5).reverse().map(h => 
+        document.getElementById('historico').innerHTML = historico.slice(-10).reverse().map(h => 
             `<div class="history-item"><span>✅ ${h.fone}</span><span>${h.hora}</span></div>`
         ).join('');
     }
 
-    function gerarRelatorio() {
-        let r = "*RELATÓRIO ODONTONÚCLEO*\n\n" + `Total: ${pacientes.length}\nEnviados: ${index}\n\n`;
-        const url = `https://wa.me/?text=${encodeURIComponent(r)}`;
-        window.open(url);
+    function enviarRelatorio() {
+        let rel = `📊 *RELATÓRIO DE CAMPANHA - ODONTONÚCLEO*\n\n`;
+        rel += `✅ *Enviados:* ${index}\n`;
+        rel += `⏳ *Faltam:* ${LISTA_PACIENTES.length - index}\n`;
+        rel += `🏁 *Total:* ${LISTA_PACIENTES.length}\n\n`;
+        rel += `--- Últimos 5 pacientes ---\n`;
+        historico.slice(-5).forEach(h => rel += `- ${h.fone} às ${h.hora}\n`);
+
+        window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_RELATORIO}&text=${encodeURIComponent(rel)}`, '_blank');
     }
 
     function resetar() {
-        if(confirm("Apagar lista e começar do zero?")) {
+        if(confirm("Deseja reiniciar a contagem dos números?")) {
             localStorage.clear();
             location.reload();
         }
@@ -192,6 +140,5 @@
 
     atualizarUI();
 </script>
-
 </body>
 </html>
